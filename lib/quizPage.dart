@@ -8,12 +8,34 @@ import 'package:flutter/services.dart';
 import 'package:quiz/resultPage.dart';
 
 class getJson extends StatelessWidget {
+  var langname;
+
+  getJson(this.langname);
+
+  late String assettoload;
+
+  setasset() {
+    if (langname == "Python") {
+      assettoload = "assets/python.json";
+    } else if (langname == "Java") {
+      assettoload = "assets/java.json";
+    } else if (langname == "Javascript") {
+      assettoload = "assets/js.json";
+    } else if (langname == "C++") {
+      assettoload = "assets/cpp.json";
+    } else {
+      assettoload = "assets/linux.json";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    setasset();
     return FutureBuilder(
-        future: DefaultAssetBundle.of(context).loadString('assets/python.json'),
+        future: DefaultAssetBundle.of(context)
+            .loadString(assettoload, cache: false),
         builder: (context, snapshot) {
-          List myData = json.decode(snapshot.data.toString());
+          var myData = json.decode(snapshot.data.toString());
           if (myData == null) {
             return Scaffold(
                 body: Center(
